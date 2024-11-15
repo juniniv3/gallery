@@ -1,5 +1,9 @@
+import {Text, View} from 'react-native';
+
 export const InfoScreen = () => {
   return (
-    <div>InfoScreen</div>
-  )
-}
+    <View>
+      <Text>Info 222</Text>
+    </View>
+  );
+};
