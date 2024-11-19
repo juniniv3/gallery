@@ -8,8 +8,14 @@ export const singIn = async (email: string, password: string) => {
       email,
       password,
     );
-    console.log(result.user);
+    return {
+      ok: true,
+      uid: result.user.uid,
+      email: result.user.email,
+      displayName: result.user.displayName,
+      profilePic: result.user.photoURL,
+    };
   } catch (error) {
-    console.log(error);
+    return {ok: false, errorMessage: error && 'Error de autenticación'};
   }
 };

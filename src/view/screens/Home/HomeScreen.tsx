@@ -1,7 +1,12 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../state/store/store';
-import {MAIN_COLOR, MAIN_TITTLE} from '../../design-system';
+import {
+  MAIN_COLOR,
+  MAIN_TITTLE,
+  SECONDARY_COLOR,
+  SUB_TITTLE,
+} from '../../design-system';
 
 export const HomeScreen = () => {
   const selectedData = useSelector((state: RootState) => state.auth);
@@ -11,7 +16,7 @@ export const HomeScreen = () => {
         clearButtonMode="always"
         style={styles.searchBar}
         placeholder="Buscar en gallery"></TextInput>
-      <Text style={styles.title}>Resulados de búsqueda</Text>
+      <Text style={styles.resultText}>Resulados de búsqueda</Text>
     </View>
   );
 };
@@ -19,11 +24,12 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    padding: 10,
+    padding: 12,
   },
-  title: {
-    ...MAIN_TITTLE,
-    color: MAIN_COLOR,
+  resultText: {
+    marginTop: 10,
+    ...SUB_TITTLE,
+    color: SECONDARY_COLOR,
   },
   searchBar: {
     fontSize: 18,
@@ -31,6 +37,6 @@ const styles = StyleSheet.create({
     borderColor: MAIN_COLOR,
     borderWidth: 2,
     borderRadius: 4,
-    color: MAIN_COLOR,
+    color: SECONDARY_COLOR,
   },
 });

@@ -22,18 +22,31 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: state => {
+    login: (state, {payload}) => {
       state.status = 'authenticated';
+      state.uid = payload.uid;
+      state.email = payload.email;
+      state.displayName = payload.displayName;
+      state.profilePic = payload.profilePic;
+      state.errorMessage = payload.errorMessage;
     },
-    logout: state => {
+    logout: (state, {payload}) => {
       state.status = 'unauthenticated';
+      state.uid = null;
+      state.email = null;
+      state.displayName = null;
+      state.profilePic = null;
+      state.errorMessage = payload.errorMessage;
     },
-    loading : state => {
-      state.status = 'unauthenticated';
+    loading: state => {
+      state.status = 'checking';
+      console.log(state);
+      console.log('loading');
     },
   },
 });
 
-export const {login, logout} = authSlice.actions;
+export const {login, logout, loading} = authSlice.actions;
 
 export default authSlice.reducer;
+ 
