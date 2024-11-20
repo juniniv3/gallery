@@ -7,9 +7,17 @@ import {
   SECONDARY_COLOR,
   SUB_TITTLE,
 } from '../../design-system';
+import {useAppDispatch} from '../../../hooks/ReduxHooks';
+import {useEffect} from 'react';
+import {startLoadingImages} from '../../../state/image';
 
 export const HomeScreen = () => {
   const selectedData = useSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(startLoadingImages());
+  }, []);
+
   return (
     <View style={styles.container}>
       <TextInput
