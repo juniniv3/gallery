@@ -9,7 +9,7 @@ export const LoadPhotosButton = () => {
     launchImageLibrary({mediaType: 'photo'}, response => {
       if (response.assets && response.assets.length > 0) {
         // setImageUri(response.assets[0].uri);
-        console.log(response.assets[0].uri);
+        console.log(response.assets[0].base64);
       }
     });
   };

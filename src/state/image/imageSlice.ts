@@ -3,9 +3,11 @@ import {createSlice} from '@reduxjs/toolkit';
 interface Image {
   id: number;
   url: string;
+  name: string;
+  description: string;
 }
 
-interface ImagesState {
+export interface ImagesState {
   images: Image[];
   loading: boolean;
 }

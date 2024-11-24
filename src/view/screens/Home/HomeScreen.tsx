@@ -1,18 +1,14 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../state/store/store';
-import {
-  MAIN_COLOR,
-  MAIN_TITTLE,
-  SECONDARY_COLOR,
-  SUB_TITTLE,
-} from '../../design-system';
+import {MAIN_COLOR, SECONDARY_COLOR, SUB_TITTLE} from '../../design-system';
 import {useAppDispatch} from '../../../hooks/ReduxHooks';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {startLoadingImages} from '../../../state/image';
+import {ImageCard} from './components/ImageCard';
 
 export const HomeScreen = () => {
-  const selectedData = useSelector((state: RootState) => state.auth);
+  const images = useSelector((state: RootState) => state.image);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(startLoadingImages());
@@ -25,6 +21,12 @@ export const HomeScreen = () => {
         style={styles.searchBar}
         placeholder="Buscar en gallery"></TextInput>
       <Text style={styles.resultText}>Resulados de búsqueda</Text>
+
+      <View style={styles.imagesContainer}>
+        {images.images.map(image => {
+          return <ImageCard image={image}></ImageCard>;
+        })}
+      </View>
     </View>
   );
 };
@@ -33,6 +35,13 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     padding: 12,
+  },
+  imagesContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   resultText: {
     marginTop: 10,
