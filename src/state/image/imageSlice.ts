@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 interface Image {
-  id: number;
+  id: string;
   url: string;
   name: string;
   description: string;

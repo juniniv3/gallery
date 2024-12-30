@@ -6,6 +6,7 @@ import {useAppDispatch} from '../../../hooks/ReduxHooks';
 import {useEffect, useState} from 'react';
 import {startLoadingImages} from '../../../state/image';
 import {ImageCard} from './components/ImageCard';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export const HomeScreen = () => {
   const images = useSelector((state: RootState) => state.image);
@@ -22,11 +23,11 @@ export const HomeScreen = () => {
         placeholder="Buscar en gallery"></TextInput>
       <Text style={styles.resultText}>Resulados de búsqueda</Text>
 
-      <View style={styles.imagesContainer}>
+      <ScrollView style={styles.imagesContainer}>
         {images.images.map(image => {
-          return <ImageCard image={image}></ImageCard>;
+          return <ImageCard image={image} key={image.id} ></ImageCard>;
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -34,14 +35,12 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    flexDirection: 'column',
     padding: 12,
   },
   imagesContainer: {
     display: 'flex',
     flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    flex: 1,
   },
   resultText: {
     marginTop: 10,

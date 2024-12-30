@@ -7,7 +7,7 @@ export const loadImages = async () => {
     const querySnapshot = await getDocs(collectionRef);
     return {
       ok: true,
-      data: querySnapshot.docs.map(doc => doc.data()),
+      data: querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()})),
     };
   } catch (error) {
     return {
