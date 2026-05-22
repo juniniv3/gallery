@@ -2,14 +2,14 @@ import {Image, Text, View} from 'react-native';
 
 type ImageCardProps = {
   image: {
-    id: number;
+    id: string;
     url: string;
     name: string;
     description: string;
   };
 };
 
-export const ImageCard: React.FC<ImageCardProps> = ({image}): JSX.Element => {
+export const ImageCard: React.FC<ImageCardProps> = ({image}) => {
   return (
     <View style={ {display: 'flex', flex: 1, marginTop: 30}}>
       <Image source={{uri: image.url}} style={{flex: 1}} />
