@@ -44,9 +44,9 @@ react {
     // extraPackagerArgs = []
 
     /* Hermes Commands */
-    //   The hermes compiler command to run. By default it is 'hermesc'
-    // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
-    //
+    // hermes-compiler is overridden in package.json, which places hermesc in a nested path
+    // instead of the default sdks/hermesc location the Gradle plugin expects.
+    hermesCommand = "$rootDir/../node_modules/react-native/node_modules/hermes-compiler/hermesc/%OS-BIN%/hermesc"
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
 
@@ -76,6 +76,12 @@ android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging false
+        }
+    }
 
     namespace "com.gallery"
     defaultConfig {

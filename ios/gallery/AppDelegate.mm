@@ -1,8 +1,17 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>
 
 @implementation AppDelegate
+
+- (instancetype)init
+{
+  if (self = [super init]) {
+    self.dependencyProvider = [RCTAppDependencyProvider new];
+  }
+  return self;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
