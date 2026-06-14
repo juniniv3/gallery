@@ -1,9 +1,9 @@
-import {collection, getDocs} from 'firebase/firestore/lite';
+import {collection, getDocs} from '@firebase/firestore/lite';
 import {FirebaseFirestore} from '../Config';
 
 export const loadImages = async () => {
   try {
-    const collectionRef = await collection(FirebaseFirestore, 'images');
+    const collectionRef = collection(FirebaseFirestore, 'images');
     const querySnapshot = await getDocs(collectionRef);
     return {
       ok: true,
