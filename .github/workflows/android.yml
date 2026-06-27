@@ -34,7 +34,7 @@ jobs:
             "platforms;android-36"
 
       - name: Install Node dependencies
-        run: npm ci
+        run: npm install
 
       - name: Create dummy .env for build validation
         run: |
