@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 export const LoadPhotosButton = () => {
-  const [image, setimage] = useState('');
   const pickImage = () => {
     console.log('pickImage');
     launchImageLibrary({mediaType: 'photo'}, response => {

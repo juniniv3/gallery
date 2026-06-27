@@ -1,9 +1,9 @@
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../state/store/store';
 import {MAIN_COLOR, SECONDARY_COLOR, SUB_TITTLE} from '../../design-system';
 import {useAppDispatch} from '../../../hooks/ReduxHooks';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {startLoadingImages} from '../../../state/image';
 import {ImageCard} from './components/ImageCard';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,7 +13,7 @@ export const HomeScreen = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(startLoadingImages());
-  }, []);
+  }, [dispatch]);
 
   return (
     <View style={styles.container}>
