@@ -19,7 +19,7 @@ export class AxosAdapter implements HttpAdapter {
     try {
       const {data} = await this.axiosIntance.get<T>(url, options);
       return data;
-    } catch (error) {
+    } catch {
       throw new Error('Method not implemented.');
     }
   }
