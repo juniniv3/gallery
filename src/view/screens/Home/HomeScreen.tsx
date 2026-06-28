@@ -9,7 +9,7 @@ import {
   SURFACE,
 } from '../../design-system';
 import {useAppDispatch} from '../../../hooks/ReduxHooks';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {startLoadingImages} from '../../../state/image';
 import {ImageCard} from './components/ImageCard';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -17,9 +17,19 @@ import {ScrollView} from 'react-native-gesture-handler';
 export const HomeScreen = () => {
   const images = useSelector((state: RootState) => state.image);
   const dispatch = useAppDispatch();
+  const [query, setQuery] = useState('');
+
   useEffect(() => {
     dispatch(startLoadingImages());
   }, [dispatch]);
+
+  const filteredImages = query.trim()
+    ? images.images.filter(
+        img =>
+          img.name.toLowerCase().includes(query.toLowerCase()) ||
+          img.description.toLowerCase().includes(query.toLowerCase()),
+      )
+    : images.images;
 
   return (
     <View style={styles.container}>
@@ -29,12 +39,14 @@ export const HomeScreen = () => {
           style={styles.searchBar}
           placeholder="Buscar en Gallery..."
           placeholderTextColor={TEXT_SECONDARY}
+          value={query}
+          onChangeText={setQuery}
         />
       </View>
 
       <Text style={styles.sectionTitle}>
-        {images.images.length > 0
-          ? `${images.images.length} resultados`
+        {filteredImages.length > 0
+          ? `${filteredImages.length} resultados`
           : 'Resultados de búsqueda'}
       </Text>
 
@@ -42,7 +54,7 @@ export const HomeScreen = () => {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}>
-        {images.images.map(image => (
+        {filteredImages.map(image => (
           <ImageCard image={image} key={image.id} />
         ))}
       </ScrollView>
