@@ -1,12 +1,18 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../state/store/store';
-import {MAIN_COLOR, SECONDARY_COLOR, SUB_TITTLE} from '../../design-system';
+import {
+  BACKGROUND,
+  TEXT_PRIMARY,
+  TEXT_SECONDARY,
+  BORDER_COLOR,
+  SURFACE,
+} from '../../design-system';
 import {useAppDispatch} from '../../../hooks/ReduxHooks';
 import {useEffect} from 'react';
 import {startLoadingImages} from '../../../state/image';
 import {ImageCard} from './components/ImageCard';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export const HomeScreen = () => {
   const images = useSelector((state: RootState) => state.image);
@@ -17,16 +23,28 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        clearButtonMode="always"
-        style={styles.searchBar}
-        placeholder="Buscar en gallery"></TextInput>
-      <Text style={styles.resultText}>Resulados de búsqueda</Text>
+      <View style={styles.searchWrapper}>
+        <TextInput
+          clearButtonMode="always"
+          style={styles.searchBar}
+          placeholder="Buscar en Gallery..."
+          placeholderTextColor={TEXT_SECONDARY}
+        />
+      </View>
 
-      <ScrollView style={styles.imagesContainer}>
-        {images.images.map(image => {
-          return <ImageCard image={image} key={image.id} ></ImageCard>;
-        })}
+      <Text style={styles.sectionTitle}>
+        {images.images.length > 0
+          ? `${images.images.length} resultados`
+          : 'Resultados de búsqueda'}
+      </Text>
+
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}>
+        {images.images.map(image => (
+          <ImageCard image={image} key={image.id} />
+        ))}
       </ScrollView>
     </View>
   );
@@ -34,25 +52,43 @@ export const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 12,
+    flex: 1,
+    backgroundColor: BACKGROUND,
+    paddingTop: 16,
   },
-  imagesContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  resultText: {
-    marginTop: 10,
-    ...SUB_TITTLE,
-    color: SECONDARY_COLOR,
+  searchWrapper: {
+    paddingHorizontal: 16,
+    marginBottom: 12,
   },
   searchBar: {
-    fontSize: 18,
-    padding: 10,
-    borderColor: MAIN_COLOR,
-    borderWidth: 2,
-    borderRadius: 4,
-    color: SECONDARY_COLOR,
+    height: 48,
+    backgroundColor: SURFACE,
+    borderWidth: 1.5,
+    borderColor: BORDER_COLOR,
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    fontSize: 15,
+    color: TEXT_PRIMARY,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  sectionTitle: {
+    paddingHorizontal: 16,
+    marginBottom: 8,
+    fontSize: 13,
+    fontWeight: '600',
+    color: TEXT_SECONDARY,
+    letterSpacing: 0.3,
+    textTransform: 'uppercase',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
   },
 });

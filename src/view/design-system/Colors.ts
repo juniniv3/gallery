@@ -1,4 +1,11 @@
-export const MAIN_COLOR = '#FFBA08';
+export const MAIN_COLOR = '#6366F1';
+export const MAIN_COLOR_DARK = '#4F46E5';
 export const SECONDARY_COLOR = '#032B43';
+export const BACKGROUND = '#F8FAFC';
+export const SURFACE = '#FFFFFF';
+export const TEXT_PRIMARY = '#0F172A';
+export const TEXT_SECONDARY = '#64748B';
+export const BORDER_COLOR = '#E2E8F0';
 export const WHITE = '#FFFFFF';
-export const ERRROR_COLOR = '#D00000';
+export const ERROR_COLOR = '#EF4444';
+export const ERRROR_COLOR = ERROR_COLOR;
