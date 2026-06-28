@@ -1,8 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
-import {RootStackParams} from '../../navigation/navigation';
 import {
   MAIN_COLOR,
   BACKGROUND,
@@ -22,7 +19,6 @@ type FormData = {
 };
 
 export const LoginScreen: React.FC = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const status = useAppSelector(state => state.auth.status);
   const isAuthenticated = useMemo(() => status === 'authenticated', [status]);
   const dispatch = useAppDispatch();
@@ -34,7 +30,6 @@ export const LoginScreen: React.FC = () => {
 
   const onSubmit = (data: FormData) => {
     dispatch(loginThunk(data.username, data.password));
-    navigation.navigate('Home');
   };
 
   return (
