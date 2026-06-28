@@ -3,7 +3,15 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {RootStackParams} from '../../navigation/navigation';
-import {MAIN_COLOR, SECONDARY_COLOR, ERRROR_COLOR} from '../../design-system';
+import {
+  MAIN_COLOR,
+  BACKGROUND,
+  SURFACE,
+  TEXT_PRIMARY,
+  TEXT_SECONDARY,
+  BORDER_COLOR,
+  ERROR_COLOR,
+} from '../../design-system';
 import {loginThunk} from '../../../state/auth';
 import {useAppDispatch, useAppSelector} from '../../../hooks/ReduxHooks';
 import {useMemo} from 'react';
@@ -16,9 +24,7 @@ type FormData = {
 export const LoginScreen: React.FC = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
   const status = useAppSelector(state => state.auth.status);
-  const isAuthenticated = useMemo(() => {
-    return status === 'authenticated';
-  }, [status]);
+  const isAuthenticated = useMemo(() => status === 'authenticated', [status]);
   const dispatch = useAppDispatch();
   const {
     control,
@@ -27,98 +33,178 @@ export const LoginScreen: React.FC = () => {
   } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
     dispatch(loginThunk(data.username, data.password));
     navigation.navigate('Home');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Ingresar</Text>
-      <Text style={styles.userText}>Usuario</Text>
-      <Controller
-        control={control}
-        rules={{required: 'El usuario es requerido'}}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            style={styles.userInput}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
+      <View style={styles.logoContainer}>
+        <View style={styles.logoCircle}>
+          <Text style={styles.logoLetter}>G</Text>
+        </View>
+        <Text style={styles.appName}>Gallery</Text>
+        <Text style={styles.subtitle}>Inicia sesión para continuar</Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Usuario</Text>
+        <Controller
+          control={control}
+          rules={{required: 'El usuario es requerido'}}
+          render={({field: {onChange, onBlur, value}}) => (
+            <TextInput
+              style={[styles.input, errors.username && styles.inputError]}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              autoCapitalize="none"
+              placeholderTextColor={TEXT_SECONDARY}
+              placeholder="Tu usuario"
+            />
+          )}
+          name="username"
+        />
+        {errors.username && (
+          <Text style={styles.errorText}>{errors.username.message}</Text>
         )}
-        name="username"
-      />
-      {errors.username && (
-        <Text style={styles.errorText}>{errors.username.message}</Text>
-      )}
-      <Text style={styles.userText}>Contraseña</Text>
-      <Controller
-        control={control}
-        rules={{required: 'La contraseña es requerida'}}
-        render={({field: {onChange, onBlur, value}}) => (
-          <TextInput
-            secureTextEntry={true}
-            style={styles.userInput}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
+
+        <Text style={[styles.label, {marginTop: 20}]}>Contraseña</Text>
+        <Controller
+          control={control}
+          rules={{required: 'La contraseña es requerida'}}
+          render={({field: {onChange, onBlur, value}}) => (
+            <TextInput
+              secureTextEntry
+              style={[styles.input, errors.password && styles.inputError]}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholderTextColor={TEXT_SECONDARY}
+              placeholder="Tu contraseña"
+            />
+          )}
+          name="password"
+        />
+        {errors.password && (
+          <Text style={styles.errorText}>{errors.password.message}</Text>
         )}
-        name="password"
-      />
-      {errors.password && (
-        <Text style={styles.errorText}>{errors.password.message}</Text>
-      )}
-      <Pressable
-        style={{marginTop: 60}}
-        onPress={handleSubmit(onSubmit)}
-        disabled={isAuthenticated}>
-        <Text style={styles.loginButtonText}>Ingresar</Text>
-      </Pressable>
+
+        <Pressable
+          style={({pressed}) => [
+            styles.button,
+            pressed && styles.buttonPressed,
+            isAuthenticated && styles.buttonDisabled,
+          ]}
+          onPress={handleSubmit(onSubmit)}
+          disabled={isAuthenticated}>
+          <Text style={styles.buttonText}>Ingresar</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 24,
     flex: 1,
-    alignContent: 'center',
+    backgroundColor: BACKGROUND,
+    paddingHorizontal: 24,
     justifyContent: 'center',
   },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 30,
-    marginBottom: 20,
-    color: SECONDARY_COLOR,
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
   },
-  userText: {
-    color: SECONDARY_COLOR,
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
-  userInput: {
-    width: '100%',
-    height: 40,
-    borderColor: SECONDARY_COLOR,
-    color: SECONDARY_COLOR,
-    borderWidth: 1,
-    marginTop: 10,
-    paddingLeft: 8,
-  },
-  loginButtonText: {
-    padding: 12,
+  logoCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
     backgroundColor: MAIN_COLOR,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+    shadowColor: MAIN_COLOR,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+  logoLetter: {
+    fontSize: 36,
+    fontWeight: '800',
+    color: '#fff',
+  },
+  appName: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: TEXT_PRIMARY,
+    letterSpacing: 0.5,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: TEXT_SECONDARY,
+    marginTop: 4,
+  },
+  card: {
+    backgroundColor: SURFACE,
+    borderRadius: 20,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: TEXT_PRIMARY,
+    marginBottom: 8,
+    letterSpacing: 0.3,
+  },
+  input: {
+    height: 48,
+    borderWidth: 1.5,
+    borderColor: BORDER_COLOR,
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    fontSize: 15,
+    color: TEXT_PRIMARY,
+    backgroundColor: BACKGROUND,
+  },
+  inputError: {
+    borderColor: ERROR_COLOR,
   },
   errorText: {
-    color: ERRROR_COLOR,
+    color: ERROR_COLOR,
     fontSize: 12,
-    marginTop: 5,
+    marginTop: 6,
+  },
+  button: {
+    marginTop: 28,
+    height: 52,
+    backgroundColor: MAIN_COLOR,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: MAIN_COLOR,
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  buttonPressed: {
+    opacity: 0.85,
+    transform: [{scale: 0.98}],
+  },
+  buttonDisabled: {
+    opacity: 0.5,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#fff',
+    letterSpacing: 0.5,
   },
 });
