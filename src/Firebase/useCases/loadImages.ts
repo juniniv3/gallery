@@ -1,4 +1,4 @@
-import {collection, getDocs} from '@firebase/firestore/lite';
+import {collection, getDocs} from '@firebase/firestore';
 import {FirebaseFirestore} from '../Config';
 
 export const loadImages = async () => {
@@ -10,6 +10,7 @@ export const loadImages = async () => {
       data: querySnapshot.docs.map(doc => ({id: doc.id, ...doc.data()})),
     };
   } catch (error) {
+    console.error('[loadImages] Firestore error:', JSON.stringify(error));
     return {
       ok: false,
       data: [],
